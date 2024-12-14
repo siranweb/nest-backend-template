@@ -33,9 +33,9 @@ export class SessionsController {
   ) {}
 
   @Post('/auth')
-  @ApiOperation({ summary: 'Authorize and get tokens' })
+  @ApiOperation({ summary: 'Авторизоваться и получить токены в куки' })
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiResponses(HttpStatus.NO_CONTENT, { description: 'Tokens received' })
+  @ApiResponses(HttpStatus.NO_CONTENT, { description: 'Токены получены' })
   @ApiResponses(HttpStatus.BAD_REQUEST, [UserLoginTakenError, UserNotFoundError])
   public async login(
     @Res({ passthrough: true })
@@ -47,9 +47,9 @@ export class SessionsController {
   }
 
   @Delete()
-  @ApiOperation({ summary: 'Log out' })
+  @ApiOperation({ summary: 'Завершить сессию и очистить куки' })
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiResponses(HttpStatus.NO_CONTENT, { description: 'Tokens deleted' })
+  @ApiResponses(HttpStatus.NO_CONTENT, { description: 'Токены очищены' })
   public async logout(
     @Res({ passthrough: true })
     reply: FastifyReply,
@@ -58,9 +58,9 @@ export class SessionsController {
   }
 
   @Post('/tokens')
-  @ApiOperation({ summary: 'Create new tokens by refresh token' })
+  @ApiOperation({ summary: 'Обновить токены в куки по refreshToken' })
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiResponses(HttpStatus.NO_CONTENT, { description: 'Tokens refreshed' })
+  @ApiResponses(HttpStatus.NO_CONTENT, { description: 'Токены обновлены' })
   public async refresh(
     @Req() req: FastifyRequest,
     @Res({ passthrough: true })

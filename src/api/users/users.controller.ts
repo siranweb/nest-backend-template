@@ -24,19 +24,19 @@ export class UsersController {
   ) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create user and get tokens' })
+  @ApiOperation({ summary: 'Создать нового пользователя и получить токены в куки' })
   @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiResponses(HttpStatus.NO_CONTENT, { description: 'User created' })
+  @ApiResponses(HttpStatus.NO_CONTENT, { description: 'Пользователь создан' })
   @ApiResponses(HttpStatus.BAD_REQUEST, [UserLoginTakenError])
   public async create(@Body() dto: CreateUserDto): Promise<void> {
     await this.createUserCase.execute(dto);
   }
 
   @Get('/me/profile')
-  @ApiOperation({ summary: 'Returns authorized user profile' })
+  @ApiOperation({ summary: 'Возвращает профиль авторизованного пользователя' })
   @Auth()
   @HttpCode(HttpStatus.OK)
-  @ApiResponses(HttpStatus.OK, [UserProfileResponse], { description: 'User profile' })
+  @ApiResponses(HttpStatus.OK, [UserProfileResponse], { description: 'Профиль пользователя' })
   @ApiResponses(HttpStatus.BAD_REQUEST, [UserNotFoundError])
   public async getAuthUserProfile(
     @TokenPayload() payload: TAccessTokenPayload,

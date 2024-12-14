@@ -7,9 +7,9 @@ import { UnknownError, ValidationError } from '@/shared/errors/common-errors';
  */
 export function SharedResponses() {
   return applyDecorators(
-    ApiResponses(HttpStatus.BAD_REQUEST, [ValidationError], { description: 'Request failed' }),
+    ApiResponses(HttpStatus.BAD_REQUEST, [ValidationError], { description: 'Ошибка запроса' }),
     ApiResponses(HttpStatus.INTERNAL_SERVER_ERROR, [UnknownError], {
-      description: 'Internal server error',
+      description: 'Внутренняя ошибка сервера',
     }),
   );
 }

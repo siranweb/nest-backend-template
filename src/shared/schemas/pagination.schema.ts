@@ -1,9 +1,11 @@
 import { z } from 'zod';
 
 export const paginationSchema = z.object({
-  totalPages: z.number().openapi({ description: 'Total pages', example: 10 }),
-  page: z.coerce.number().openapi({ description: 'Number of page', example: 2 }),
-  limit: z.coerce.number().openapi({ description: 'Max amount of records in page', example: 20 }),
+  totalPages: z.number().openapi({ description: 'Всего страниц', example: 10 }),
+  page: z.coerce.number().openapi({ description: 'Номер страницы', example: 2 }),
+  limit: z.coerce
+    .number()
+    .openapi({ description: 'Максимальное кол-во записей на одной странице', example: 20 }),
 });
 
 export const paginationQuerySchema = paginationSchema.omit({ totalPages: true }).extend({
