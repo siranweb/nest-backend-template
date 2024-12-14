@@ -6,6 +6,7 @@
 import { ZodSchema, ZodTypeDef } from 'zod';
 import { SchemaObject } from 'zod-openapi/dist/openapi3-ts/dist/model/openapi31';
 import { createSchema } from 'zod-openapi';
+import { throwInternalError } from '@/shared/utils/errors';
 
 export interface ZodDto<TOutput = any, TDef extends ZodTypeDef = ZodTypeDef, TInput = TOutput> {
   new (): TOutput;
@@ -16,6 +17,7 @@ export interface ZodDto<TOutput = any, TDef extends ZodTypeDef = ZodTypeDef, TIn
 
 export function createZodDto<TOutput = any, TDef extends ZodTypeDef = ZodTypeDef, TInput = TOutput>(
   schema: ZodSchema<TOutput, TDef, TInput>,
+  type: TZodDtoType = 'dto',
 ) {
   class AugmentedZodDto {
     public static isZodDto = true;
@@ -30,7 +32,16 @@ export function createZodDto<TOutput = any, TDef extends ZodTypeDef = ZodTypeDef
     }
 
     public static create(input: TInput) {
-      return this.schema.parse(input);
+      if (type === 'dto') {
+        return this.schema.parse(input);
+      } else {
+        const result = this.schema.safeParse(input);
+        if (!result.success) {
+          throwInternalError(result.error);
+        } else {
+          return result.data;
+        }
+      }
     }
   }
 
@@ -53,3 +64,5 @@ function addSchemaProperties(schema: SchemaObject): void {
     }
   });
 }
+
+type TZodDtoType = 'dto' | 'response';
