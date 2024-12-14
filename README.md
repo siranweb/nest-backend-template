@@ -6,5 +6,8 @@
 * [ ] Обновить файл `START.md`, заполнив необходимые поля.
 * [ ] Удалить файл `README.md` и переименовать `START.md` в `README.md`.
 
+## Другие шаблоны
+* [nest-backend-template-simplified](https://github.com/siranweb/nest-backend-template-simplified)
+
 ## Ограничения
 * `pnpm` плохо работает с типами каких-то зависимостей. Рекомендуется использовать `npm`.
