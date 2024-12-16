@@ -44,6 +44,7 @@ export async function bootstrap() {
     },
   });
 
+  app.enableCors();
   app.enableShutdownHooks();
   app.useGlobalFilters(errorFilter);
   app.useGlobalPipes(new ZodDtoValidationPipe());
