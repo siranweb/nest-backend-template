@@ -18,7 +18,6 @@ export const AuthModeMetadata = Reflector.createDecorator<TAuthMode>();
 export function Auth(mode: TAuthMode = 'normal') {
   const decorators = [
     AuthModeMetadata(mode),
-    ApiResponses(HttpStatus.FORBIDDEN, [HttpError], { description: 'Доступ запрещён' }),
     ApiBearerAuth(),
     ApiCookieAuth(ACCESS_TOKEN_COOKIE_NAME),
   ];

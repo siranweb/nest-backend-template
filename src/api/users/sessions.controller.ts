@@ -69,7 +69,7 @@ export class SessionsController {
     const oldRefreshToken = req.cookies[REFRESH_TOKEN_COOKIE_NAME];
 
     if (!oldRefreshToken) {
-      throw new HttpException({}, HttpStatus.FORBIDDEN);
+      throw new HttpException({}, HttpStatus.UNAUTHORIZED);
     }
 
     const { accessToken, refreshToken } = await this.refreshTokensCase.execute(oldRefreshToken);
