@@ -44,19 +44,19 @@ export class Logger implements ILogger {
   }
 
   public trace(message: string, data: Record<string, any> = {}): void {
-    this.pinoLogger.trace({ data }, this.prepareMessage(message));
+    this.pinoLogger.trace(this.wrapDataIfExist(data), this.prepareMessage(message));
   }
 
   public debug(message: string, data: Record<string, any> = {}): void {
-    this.pinoLogger.debug({ data }, this.prepareMessage(message));
+    this.pinoLogger.debug(this.wrapDataIfExist(data), this.prepareMessage(message));
   }
 
   public info(message: string, data: Record<string, any> = {}): void {
-    this.pinoLogger.info({ data }, this.prepareMessage(message));
+    this.pinoLogger.info(this.wrapDataIfExist(data), this.prepareMessage(message));
   }
 
   public warn(message: string, data: Record<string, any> = {}): void {
-    this.pinoLogger.warn({ data }, this.prepareMessage(message));
+    this.pinoLogger.warn(this.wrapDataIfExist(data), this.prepareMessage(message));
   }
 
   public error(
@@ -70,13 +70,14 @@ export class Logger implements ILogger {
       string,
       any
     >;
-
+    const meta: Record<string, any> = {
+      ...logData,
+    };
     const plainError = error ? this.getPlainError(error) : null;
-
-    this.pinoLogger.error(
-      { data: logData, error: plainError },
-      message ? this.prepareMessage(message) : '',
-    );
+    if (plainError) {
+      meta.error = plainError;
+    }
+    this.pinoLogger.error(this.wrapDataIfExist(meta), message ? this.prepareMessage(message) : '');
   }
 
   public fatal(
@@ -91,12 +92,14 @@ export class Logger implements ILogger {
       any
     >;
 
+    const meta: Record<string, any> = {
+      ...logData,
+    };
     const plainError = error ? this.getPlainError(error) : null;
-
-    this.pinoLogger.fatal(
-      { data: logData, error: plainError },
-      message ? this.prepareMessage(message) : '',
-    );
+    if (plainError) {
+      meta.error = plainError;
+    }
+    this.pinoLogger.fatal(this.wrapDataIfExist(meta), message ? this.prepareMessage(message) : '');
   }
 
   private prepareMessage(message: string): string {
@@ -112,5 +115,9 @@ export class Logger implements ILogger {
     // @ts-ignore
     Object.getOwnPropertyNames(error).forEach((name) => (plainError[name] = error[name]));
     return plainError;
+  }
+
+  private wrapDataIfExist(data: Record<string, any>): Record<string, any> {
+    return Object.keys(data).length > 0 ? { data } : {};
   }
 }
