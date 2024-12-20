@@ -44,19 +44,19 @@ export class Logger implements ILogger {
   }
 
   public trace(message: string, data: Record<string, any> = {}): void {
-    this.pinoLogger.trace(data, this.prepareMessage(message));
+    this.pinoLogger.trace({ data }, this.prepareMessage(message));
   }
 
   public debug(message: string, data: Record<string, any> = {}): void {
-    this.pinoLogger.debug(data, this.prepareMessage(message));
+    this.pinoLogger.debug({ data }, this.prepareMessage(message));
   }
 
   public info(message: string, data: Record<string, any> = {}): void {
-    this.pinoLogger.info(data, this.prepareMessage(message));
+    this.pinoLogger.info({ data }, this.prepareMessage(message));
   }
 
   public warn(message: string, data: Record<string, any> = {}): void {
-    this.pinoLogger.warn(data, this.prepareMessage(message));
+    this.pinoLogger.warn({ data }, this.prepareMessage(message));
   }
 
   public error(
@@ -74,7 +74,7 @@ export class Logger implements ILogger {
     const plainError = error ? this.getPlainError(error) : null;
 
     this.pinoLogger.error(
-      { ...logData, error: plainError },
+      { data: logData, error: plainError },
       message ? this.prepareMessage(message) : '',
     );
   }
@@ -94,7 +94,7 @@ export class Logger implements ILogger {
     const plainError = error ? this.getPlainError(error) : null;
 
     this.pinoLogger.fatal(
-      { ...logData, error: plainError },
+      { data: logData, error: plainError },
       message ? this.prepareMessage(message) : '',
     );
   }
